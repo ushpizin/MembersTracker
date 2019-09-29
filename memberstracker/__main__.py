@@ -25,12 +25,11 @@ def main():
     while True:
         added, removed = tracker.update(app.get_members())
         for user in added:
-            logger.info('Joined: {}'.format(user))
+            logger.info('Joined: %(user)s', {'user': user})
         for user in removed:
-            logger.info('Left: {}'.format(user))
+            logger.info('Left: %(user)s', {'user': user})
 
         time.sleep(5)
 
 if __name__ == '__main__':
     main()
-
