@@ -3,7 +3,7 @@ import logging
 import weakref
 import telethon.sync as telethon
 
-from .credentials import API_ID, API_HASH, CLIENT_PHONE, BOT_TOKEN, CHANNEL_ID, CHANNEL_ACCESS_HASH
+from .credentials import API_ID, API_HASH, CLIENT_PHONE, BOT_TOKEN, CHANNEL_INVITE_CODE
 
 
 class AppInteraction():
@@ -18,7 +18,8 @@ class AppInteraction():
         self._bot = telethon.TelegramClient(self._BOT_SESSION, API_ID, API_HASH)
         self._bot.start(bot_token=BOT_TOKEN)
 
-        self._input_channel = telethon.types.InputChannel(CHANNEL_ID, CHANNEL_ACCESS_HASH)
+        chat_invite = self._client(telethon.functions.messages.CheckChatInviteRequest(CHANNEL_INVITE_CODE))
+        self._input_channel = telethon.types.InputChannel(chat_invite.chat.id, chat_invite.chat.access_hash)
 
     def get_members(self):
         return self._client.get_participants(self._input_channel)
